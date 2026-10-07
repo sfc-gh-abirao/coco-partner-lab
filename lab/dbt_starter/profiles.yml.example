@@ -1,0 +1,26 @@
+# Example dbt profile for the lab.
+#
+# Copy to profiles.yml and fill in. profiles.yml is gitignored — keep it that way.
+#
+# Set schema to the ENG_* schema that lab/01_setup.sql created for you. If you
+# are unsure what it is: SELECT CURRENT_SCHEMA(); after running 01_setup.sql.
+
+northwind_lab:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: <your_account_identifier>
+      user: <your_username>
+
+      # Use whichever authenticator your account requires. externalbrowser is
+      # correct for SSO, which is the common case. Do not put a password here.
+      authenticator: externalbrowser
+
+      role: COCO_LAB_ENGINEER
+      warehouse: COCO_LAB_WH
+      database: COCO_LAB
+      schema: ENG_<YOUR_USERNAME>
+
+      threads: 4
+      client_session_keep_alive: false

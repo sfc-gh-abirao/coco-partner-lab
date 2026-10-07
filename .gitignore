@@ -1,0 +1,29 @@
+# Snowflake / CoCo local state
+.snowflake/
+*.log
+
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# Local credentials — never commit
+profiles.yml
+connection.toml
+*.pem
+*.p8
+.env
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: Order fact, one row per order.
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_customer
+    description: Customer dimension, SCD type 1.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_shipments
+    description: Shipment fact, one row per shipment.
+    columns:
+      - name: shipment_id
+        tests:
+          - unique
+          - not_null

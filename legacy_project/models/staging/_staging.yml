@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Order headers, one row per order. Filtered to post-migration.
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+
+  - name: stg_order_lines
+    description: Order line items.
+    columns:
+      - name: order_line_id
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+
+  - name: stg_customers
+    description: Customers, one row per customer.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_shipments
+    description: Shipments, one row per shipment.
+    columns:
+      - name: shipment_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_carriers
+    description: Carriers. Test carriers excluded when exclude_test_carriers is true.
+    columns:
+      - name: carrier_id
+        tests:
+          - unique
+          - not_null

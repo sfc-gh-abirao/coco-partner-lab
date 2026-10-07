@@ -1,0 +1,23 @@
+name: 'northwind_lab'
+version: '1.0.0'
+config-version: 2
+
+profile: 'northwind_lab'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  northwind_lab:
+    staged:
+      +materialized: view
+    curated:
+      # Dynamic table models need refresh_mode set here, not just in raw DDL.
+      # A standard that only covers hand-written DDL silently will not apply to
+      # dbt models — which is where most of a customer's pipeline actually lives.
+      +materialized: table

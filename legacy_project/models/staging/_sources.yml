@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: northwind_raw
+    database: NORTHWIND
+    schema: RAW
+    description: Landing zone. Loaded by the Fivetran connectors and the legacy SSIS jobs.
+
+    tables:
+      - name: orders
+      - name: order_lines
+      - name: customers
+      - name: customer_addresses
+        description: Multiple rows per customer, one per address type.
+      - name: products
+        description: >
+          One row per product per price-book version since Jan 2024.
+          v_raw_products flattens this to current-version-only.
+      - name: shipments
+      - name: shipment_legs
+      - name: shipment_events
+        description: Scan events. High volume. Feeds dt_shipment_status.
+      - name: carriers
+      - name: invoices
+      - name: invoice_lines

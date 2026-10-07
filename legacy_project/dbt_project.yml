@@ -1,0 +1,51 @@
+name: 'northwind_analytics'
+version: '2.3.1'
+config-version: 2
+
+profile: 'northwind'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# NOTE(dpritchard 2024-11): bumped from 1.5 during the Snowflake move.
+# Some of the older models still assume the 1.5 behaviour for incremental
+# on_schema_change. Worth an audit at some point.
+require-dbt-version: [">=1.7.0", "<2.0.0"]
+
+vars:
+  # Anything before this date is pre-migration and known bad. Most models
+  # filter on it. Some don't — that is not deliberate.
+  migration_cutoff_date: '2023-07-01'
+
+  # Was meant to be temporary while we validated the carrier feed.
+  # Still here.
+  exclude_test_carriers: true
+
+models:
+  northwind_analytics:
+    +materialized: view
+
+    staging:
+      +materialized: view
+      +schema: staging
+
+    intermediate:
+      +materialized: ephemeral
+
+    marts:
+      +materialized: table
+      +schema: marts
+
+    # Added for the shipment tracking work. The dynamic tables are defined as
+    # raw SQL rather than through the dbt dynamic table materialization,
+    # because we needed them before the adapter supported it.
+    dynamic:
+      +materialized: view
+      +enabled: false
